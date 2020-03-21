@@ -37,15 +37,32 @@ def categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     if what is 'nodes':
         f = G.nodes
         # categories of nodes
-        lcats = ['a', 'b', 'c']
+        lcats = ['a', 'b', 'c', 'd']
+        lbins = [-.0001, .25, .5, .75, 1.0001]
+
     elif what is 'edges':
         f = G.edges
         # categories of nodes
         lcats = ['a', 'b']
+        lbins = [-.0001, .5, 1.0001]
     else:
         return
 
     # data frame with characteristics for nodes
+    _ = [{'ID': n, 'status': f[n]['w']} for n in f()]
+
+    node_labels = pd.DataFrame(_)
+    node_labels = node_labels.set_index('ID')
+    node_labels['status'] = pd.cut(node_labels['status'], lbins, labels=lcats)
+    # node_labels = pd.DataFrame(node_labels)
+    #node_labels = node_labels.set_index('ID')
+
+
+    # print(node_labels['status'].dtype)
+    print(node_labels)
+    # print(node_labels.describe())
+
+    '''
     node_labels = pd.DataFrame({'ID': [n for n in f()],
                                 'status': [
                                     lcats[np.random.randint(0, len(lcats))]
@@ -55,7 +72,10 @@ def categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     # Transform categorical column in a numerical value
     node_labels['status'] = pd.Categorical(node_labels['status'],
                                            categories=lcats)
-
+    print(node_labels['status'].dtype)
+    print(node_labels)
+    print(node_labels.describe())
+    '''
     return node_labels, lcats
 
 
@@ -85,26 +105,6 @@ def plot(G: nx.Graph, node, neighbourhood: int) -> io.BytesIO:
 
     plt.tight_layout()
     plt.show()
-
-    print(elbls)
-
-
-'''
-M = nx.les_miserables_graph()
-# M = nx.barabasi_albert_graph(200, 50)
-
-#nx.draw(M)
-#plt.show()
-
-
-plot(M, 'Myriel', 1)
-'''
-
-'''
-G = nx.read_edgelist('edges.csv', delimiter=',', nodetype=str)
-for e in G.edges():
-    print(e)
-'''
 
 
 

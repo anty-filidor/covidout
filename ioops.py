@@ -26,7 +26,7 @@ def update_nodes_l(G: nx.Graph, n:pd.DataFrame):
     :param n: dataframe with nodes and nwe states
     """
     G.update(nodes=n.index.to_list())
-    nx.set_node_attributes(G, n, 'status')
+    nx.set_node_attributes(G, n, 'w')
     # print(G.nodes(data=True))
 
 

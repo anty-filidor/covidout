@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from io_scr import read_net
+from ioops import read_net
 
 
 def sperad(G: nx.Graph, ill_node, visited: list=[]) -> nx.Graph:
@@ -15,7 +15,8 @@ def sperad(G: nx.Graph, ill_node, visited: list=[]) -> nx.Graph:
     """
 
     # set status of ill node as 100% infected
-    G.nodes[ill_node]['status'] = 1
+    G.nodes[ill_node]['w'] = 1
+    visited.append(ill_node)
 
     # check if neighbour nodes are in taboo list
     nbrs = [*G[ill_node].keys()]
@@ -30,7 +31,7 @@ def sperad(G: nx.Graph, ill_node, visited: list=[]) -> nx.Graph:
         # print(n, w, G.nodes[n])
 
         # compute probability of being affected
-        prob = w['w'] * G.nodes[n]['status']
+        prob = w['w'] * G.nodes[n]['w']
 
         # toss a coin with binomial prob and check if node will become ill
         toss = np.random.choice(np.arange(0, 2), p=[1 - prob, prob])
@@ -43,17 +44,5 @@ def sperad(G: nx.Graph, ill_node, visited: list=[]) -> nx.Graph:
             # print('tango down', n)
 
     return visited
-
-
-
-
-g = read_net('nodes.csv', 'edges.csv')
-
-print(g.nodes(data=True))
-v = sperad(g, 2)
-print(v)
-print(g.nodes(data=True))
-
-
 
 
