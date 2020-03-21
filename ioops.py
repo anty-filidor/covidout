@@ -2,49 +2,58 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 import scipy
+import json
 
-def comp_status(nodes: str) -> pd.DataFrame:
+
+def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     """
-    reads nodes states and compute resultant function
-    RESULTANT FUNCTION SHOULD RETURN RANGE [0, 100]
+    reads nodes states and compute resultant function as internal probability
+    of being infected
     :param nodes: name of csv with nodes
     :return: data frame with nodes names and their states
     """
 
     # read csv to pd Data Frame
-    n = pd.read_csv(nodes, header=None)
-    n = n.rename(columns={0: 'n'})
+    n = pd.read_csv(nodes, header=0)
+    # print(n)
+    n = n.rename(columns={'node_id': 'n'})
     n = n.set_index('n')
 
-    #n = n.sum(axis=1)
-    #n = n / 10
-
     # convert temperature to catrgorical value
-    n[2] = n[2].apply(lambda x: 2 if x > 38 else (1 if x > 37.5 else 0))
+    n['temperatura'] = n['temperatura'].apply(lambda x: 1 if x > 39 else x/39)
 
     '''
-    - kaszel - 10
-    - temperatura - float value
-    - dusznosc - 10
-    - zmeczenie - 7
-    - bol_glowy - 7
-    - bol_miesni - 7
-    - bol_gardla - 7
-    - zaburzenie_wechu - 7
-    - zaburzenie_smaku - 7
-    - katar - 2
-    - kichanie - 2
-    - nudnosci - 2
-    - biegunka - 2
-    - bol_brzucha - 2
-    - zawroty_glowy - 2
-    - niepokoj - 2
-    - kolatanie_serca - 2
-    - zime_dreszcze - 2
+    temperatura         2
+    dusznosc            10
+    zmeczenie           7
+    bol_glowy           7
+    bol_miesni          7
+    bol_gardla          7
+    zaburzenie_wechu    7
+    zaburzenie_smaku    7
+    katar               2
+    kichanie            2
+    nudnosci            2
+    biegunka            2
+    bol_brzucha         2
+    zawroty_glowy       2
+    niepokoj            2
+    kolatanie_serca     2
+    zime_dreszcze       2
+    zaparcia            2
+    zgaga               2
+    powiekszenie_wezlow_chlonnych    2
+    goraczka            10
+    wysypka             2
+    splatanie           2
+    krwioplucie         2 
     '''
-    vec = [10, 2, 10, 7, 7, 7, 7, 7, 7, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 
-    # compute softmax
+    vec = [2, 10, 7, 7, 7, 7, 7, 7,
+           2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+           10, 2, 2, 2]
+
+    # compute softmax function
     vec = scipy.special.softmax(vec)
 
     # set probabilities for each parameter
@@ -56,7 +65,7 @@ def comp_status(nodes: str) -> pd.DataFrame:
     return n
 
 
-def update_nodes_l(G: nx.Graph, n:pd.DataFrame):
+def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
     """
     updates nodes with given status numbers
     :param G: graph
@@ -80,7 +89,23 @@ def read_net(nodes: str, edges:str) -> nx.Graph:
     G = nx.from_pandas_edgelist(e, 'n1', 'n2', 'w')
 
     # read nodes list
-    n = comp_status(nodes)
-    update_nodes_l(G, n)
+    n = _comp_internal_weights(nodes)
+    _update_nodes_labels(G, n)
 
     return G
+
+
+def get_node_states(G: nx.Graph) -> json:
+    """
+    Method which returns network state as json
+    :param G: graph to return
+    :return: graph as json
+    """
+
+    probs = {}
+    _ = [*G.nodes()]
+    _.sort()
+    for n in _:
+        probs[n] = G.nodes[n]['w']
+
+    return json.dumps(probs)
