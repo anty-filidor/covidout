@@ -15,12 +15,12 @@ def filter(G: nx.Graph, node, neighbourhood: int) -> nx.Graph:
     """
 
     # find interesting neighbours of given node
-    sp = nx.shortest_path(M, node)
+    sp = nx.shortest_path(G, node)
     neighbours = [key for (key, value) in sp.items() if
                   len(value) <= neighbourhood + 1]
 
     # create subgraph
-    g = nx.subgraph(M, neighbours)
+    g = nx.subgraph(G, neighbours)
 
     return g
 
@@ -61,10 +61,10 @@ def categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
 
 def plot(G: nx.Graph, node, neighbourhood: int) -> io.BytesIO:
     """
-    
-    :param G: 
-    :param node: 
-    :param neighbourhood: 
+    Method to visualise subgraph
+    :param G: given graph
+    :param node: node for which neighbourhood visualise a graph
+    :param neighbourhood: degree of neighbourhood
     :return: 
     """
 
@@ -89,17 +89,23 @@ def plot(G: nx.Graph, node, neighbourhood: int) -> io.BytesIO:
     print(elbls)
 
 
-
+'''
 M = nx.les_miserables_graph()
 # M = nx.barabasi_albert_graph(200, 50)
 
-'''
-nx.draw(M)
-plt.show()
-'''
-
-print(M.nodes)
+#nx.draw(M)
+#plt.show()
 
 
 plot(M, 'Myriel', 1)
+'''
+
+'''
+G = nx.read_edgelist('edges.csv', delimiter=',', nodetype=str)
+for e in G.edges():
+    print(e)
+'''
+
+
+
 
