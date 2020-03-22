@@ -21,7 +21,8 @@ def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     n = n.set_index('n')
 
     # convert temperature to catrgorical value
-    n['temperatura'] = n['temperatura'].apply(lambda x: 1 if x > 39 else ((x-35)/39))
+    n['temperatura'] = n['temperatura'].\
+        apply(lambda x: 1 if x > 39 else ((x-35)/39))
 
     '''
     temperatura         2
@@ -110,6 +111,6 @@ def get_node_states(G: nx.Graph) -> dict:
     _ = [*G.nodes()]
     _.sort()
     for n in _:
-        probs[n] = G.nodes[n]['w']
+        probs[n] = G.nodes[n]['prob']
 
     return json.dumps(probs)
