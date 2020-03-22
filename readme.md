@@ -19,13 +19,12 @@ DOCUMENTATION IS [HERE](https://anty-filidor.github.io/covidout/#)
 │   ├── names  
 │   ├── simulation.py  
 │   └── visualize_movement_simulation.py  
-├── networks  
-│   ├── edg2.csv  
-│   ├── experiment.gif   
-│   └── nod2.csv  
+├── docs  
 ├── readme.md  
+├── requirements.txt  
 └── spreading_model  
     ├── ioops.py  
+    ├── networks  
     ├── spreading.py  
     ├── src.ipynb  
     └── visualisations.py  
@@ -71,3 +70,16 @@ To sum up, model consists of 2 components:
 stored in edges of graph model.
 From hat coefficients a resultant probability is being computed by using
 conditional probability laws.
+
+### Example
+Let's assume following network, internal probability of being ill in node 
+can be:
+
+![example](docs/aux/example.png)  ![intprob](docs/aux/internal_prob.png)  
+
+Weight of interactions between nodes is given as:
+![example](docs/aux/p_x.png)  
+
+Thus:
+![example](docs/aux/p_a_desc.png) 
+![example](docs/aux/p_a.png)
