@@ -5,6 +5,7 @@ import matplotlib.cm as cmx
 import numpy as np
 import pandas as pd
 import io
+import imageio
 
 
 def _filter(G: nx.Graph, node, neighbourhood: int) -> nx.Graph:
@@ -39,18 +40,25 @@ def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     if what is 'nodes':
         f = G.nodes
         # categories of nodes
-        lcats = ['irrelevant symp.', 'low symp.', 'medium symp.', 'serious symp.']
-        lbins = [-.0001, .25, .5, .75, 1.0001]
+        # lcats = ['irrelevant symp.', 'low symp.', 'medium symp.', 'serious symp.']
+        # lbins = [-.0001, .25, .5, .75, 1.0001]
+
+        lcats = ['0-10% susp.', '10-20% susp.', '20-30% susp.',
+                 '30-40% susp.', '40-50% susp.', '50-60% susp.',
+                 '60-70% susp.', '70-80% susp.', '80-90% susp.',
+                 '90-100% susp.']
+        lbins = [-.0001, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1.0001]
 
     elif what is 'edges':
         f = G.edges
         # categories of nodes
         lcats = ['tight cont.', 'close cont.']
         lbins = [-.0001, .5, 1.0001]
+
     else:
         return
 
-    # data frame with characteristics for nodes
+    # networks frame with characteristics for nodes
     _ = [{'ID': n, 'status': f[n]['w']} for n in f()]
 
     node_labels = pd.DataFrame(_)
@@ -64,35 +72,33 @@ def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     return node_labels, lcats
 
 
-def plot(G: nx.Graph, node, neighbourhood: int, n_labels: bool = False,
-         e_labels: bool = False) -> bytes:
+def plot(G: nx.Graph, n_labels: bool = False, e_labels: bool = False,
+         pos=None) -> bytes:
     """
-    Method to visualise subgraph. Useful link
+    Method to visualise graph. Useful link
     https://stackoverflow.com/questions/22992009/legend-in-python-networkx
     :param G: given graph
-    :param node: node for which neighbourhood visualise a graph
-    :param neighbourhood: degree of neighbourhood
     :param n_labels: a flag if pring names of nodes
     :param e_labels: a flag if print states of edges
+    :param pos: positions of nodes (i.e. nx.spring_layout) if None auto
+                position is computed
     :return: png image serialised into bytes
     """
 
-    # extract subgraph
-    g = _filter(G, node, neighbourhood)
-
     # if subgraph is 1 element long do sth stupid xD
-    if len(g.nodes()) <= 1:
+    if len(G.nodes()) <= 1:
         plt.scatter(0, 0)
         plt.text(0, 0, 'SINGLETON XDDDD')
         plt.show()
         return
 
     # categorise nodes and edges
-    nlbls, ncats = _categorise(g, 'nodes')
-    elbls, ecats = _categorise(g, 'edges')
+    nlbls, ncats = _categorise(G, 'nodes')
+    elbls, ecats = _categorise(G, 'edges')
 
     # init position
-    pos = nx.spring_layout(g)
+    if pos is None:
+        pos = nx.spring_layout(G)
 
     '''
     # uncomment it to non perfect, but solid visualising
@@ -131,14 +137,14 @@ def plot(G: nx.Graph, node, neighbourhood: int, n_labels: bool = False,
         ax.plot([0], [0], color=scalar_map.to_rgba(class_map[lbl]), label=lbl)
 
     # plot sub graph nodes
-    nx.draw_networkx(g, pos=pos, with_labels=n_labels, cmap=jet,
+    nx.draw_networkx(G, pos=pos, with_labels=n_labels, cmap=jet,
                      vmin=0, vmax=max(class_map.values()),
                      node_color=node_map, node_size=170, edge_size=10,
                      alpha=0.9, font_size=12, ax=ax)
 
     # plot sub graph edges
     if e_labels:
-        nx.draw_networkx_edge_labels(g, edge_labels=elbls.to_dict()['status'],
+        nx.draw_networkx_edge_labels(G, edge_labels=elbls.to_dict()['status'],
                                      pos=pos, ax=ax)
 
     # make figure more pretty
@@ -146,8 +152,7 @@ def plot(G: nx.Graph, node, neighbourhood: int, n_labels: bool = False,
     f.set_facecolor('w')
     plt.legend()  # loc='lower right')
     f.tight_layout()
-    plt.show()
-
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
+    plt.show()
     return buf.getvalue()

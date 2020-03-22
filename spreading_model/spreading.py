@@ -1,8 +1,5 @@
 import networkx as nx
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from ioops import read_net
 
 
 def update_node(G: nx.Graph, node, weight: float):
@@ -17,7 +14,7 @@ def update_node(G: nx.Graph, node, weight: float):
     G.nodes[node]['w'] = weight
 
 
-def sperad(G: nx.Graph, ill_node, visited: set = None) -> nx.Graph:
+def sperad(G: nx.Graph, ill_node, visited: set = None) -> list:
     """
     This method spreads disease from given node to the entire network
     :param G: graph within disease is being spread

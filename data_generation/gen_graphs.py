@@ -24,7 +24,7 @@ def extract_locations(locations_df: pd.DataFrame, timestamp: datetime):
 
 
 def calculate_symptoms(symptoms_df: pd.DataFrame, date: date):
-    # Filter out non important data
+    # Filter out non important networks
     last_important = date - timedelta(days=CORONAVIRUS_LENGTH_DAYS)
 
     users = symptoms_df['user_id'].unique()

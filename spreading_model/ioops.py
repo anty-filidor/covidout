@@ -10,7 +10,7 @@ def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     reads nodes states and compute resultant function as internal probability
     of being infected
     :param nodes: name of csv with nodes
-    :return: data frame with nodes names and their states
+    :return: networks frame with nodes names and their states
     """
 
     # read csv to pd Data Frame
@@ -73,7 +73,7 @@ def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
     """
     G.update(nodes=n.index.to_list())
     nx.set_node_attributes(G, n, 'w')
-    # print(G.nodes(data=True))
+    # print(G.nodes(networks=True))
 
 
 def read_net(nodes: str, edges:str) -> nx.Graph:
