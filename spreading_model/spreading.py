@@ -38,7 +38,7 @@ def sperad(G: nx.Graph, node_id, visited: set = None, sure_ill=False):
         # take neighbours of node
         _n = [*G[node_id].keys()]
 
-        probs = [G.nodes[node_id]['state'] * G[__n][node_id]['w'] * G.nodes[__n]['prob'] for __n in _n]
+        probs = [G.nodes[node_id]['state'] * G[__n][node_id]['w']**2 * G.nodes[__n]['prob'] for __n in _n]
         probs = np.array(probs)
 
         prob = probs
