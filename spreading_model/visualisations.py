@@ -37,6 +37,7 @@ def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     :param G: graph
     :return:
     """
+    _ = None
 
     # initialise params
     if what is 'nodes':
@@ -51,17 +52,19 @@ def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
                  '90-100% susp.']
         lbins = [-.0001, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1.0001]
 
+        # networks frame with characteristics for nodes
+        _ = [{'ID': n, 'status': f[n]['prob']} for n in f()]
+
     elif what is 'edges':
         f = G.edges
         # categories of nodes
         lcats = ['tight cont.', 'close cont.']
         lbins = [-.0001, .5, 1.0001]
+        _ = [{'ID': n, 'status': f[n]['w']} for n in f()]
 
     else:
         return
 
-    # networks frame with characteristics for nodes
-    _ = [{'ID': n, 'status': f[n]['w']} for n in f()]
 
     node_labels = pd.DataFrame(_)
     node_labels = node_labels.set_index('ID')
