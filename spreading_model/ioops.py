@@ -61,8 +61,7 @@ def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     n = n.mul(vec)
 
     # compute overall probability
-
-    return n
+    return n.sum("columns")
 
 
 def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
@@ -75,7 +74,7 @@ def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
 
     G.update(nodes=n.index.to_list())
 
-    nx.set_node_attributes(G, n.to_dict(orient="index"), 'state')
+    nx.set_node_attributes(G, n.to_dict(), 'state')
     nx.set_node_attributes(G, 1e-6, 'prob')
 
 
