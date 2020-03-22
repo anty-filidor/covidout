@@ -21,7 +21,7 @@ def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     n = n.set_index('n')
 
     # convert temperature to catrgorical value
-    n['temperatura'] = n['temperatura'].apply(lambda x: 1 if x > 39 else x/39)
+    n['temperatura'] = n['temperatura'].apply(lambda x: 1 if x > 39 else ((x-35)/39))
 
     '''
     temperatura         2
@@ -58,12 +58,10 @@ def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     vec = scipy.special.softmax(vec)
 
     # set probabilities for each parameter
-    n = n * vec
+    n = n.mul(vec)
 
     # compute overall probability
-    n = n.sum(axis=1)
-
-    return n
+    return n.sum("columns")
 
 
 def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
@@ -73,9 +71,11 @@ def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
     :param G: graph
     :param n: dataframe with nodes and nwe states
     """
+
     G.update(nodes=n.index.to_list())
-    nx.set_node_attributes(G, n, 'w')
-    # print(G.nodes(networks=True))
+
+    nx.set_node_attributes(G, n.to_dict(), 'state')
+    nx.set_node_attributes(G, 1e-6, 'prob')
 
 
 def read_net(nodes: str, edges:str) -> nx.Graph:
