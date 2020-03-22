@@ -5,7 +5,8 @@ which simulates an illness propagation. Data is being generated in silulation of
  significant symptoms of CoVid19 ilness. This model has been developed after
  medical consultations and it is an entry for machine learning pipeline (after
  feeding with real data).
-
+ 
+DOCUMENTATION IS [HERE](https://anty-filidor.github.io/covidout/#)
 
 ### Structure of repository
 
