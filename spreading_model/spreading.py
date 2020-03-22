@@ -5,6 +5,7 @@ import numpy as np
 def update_node(G: nx.Graph, node, weight: float):
     """
     This method updates weight of certain node in given graph
+
     :param G: graph to update
     :param node: node name to update
     :param weight: value of new weight
@@ -14,11 +15,12 @@ def update_node(G: nx.Graph, node, weight: float):
     G.nodes[node]['w'] = weight
 
 
-def sperad(G: nx.Graph, ill_node, visited: set = None) -> list:
+def sperad(G: nx.Graph, start_node, visited: set = None) -> list:
     """
     This method spreads disease from given node to the entire network
+
     :param G: graph within disease is being spread
-    :param ill_node: ill node
+    :param start_node: starting poin of simulation
     :param visited: taboo list of nodes affected. used in the recursion
     :return: nodes which were affected
     """
@@ -32,7 +34,7 @@ def sperad(G: nx.Graph, ill_node, visited: set = None) -> list:
     # visited.add(ill_node)
 
     # check if neighbour nodes are in taboo list
-    nbrs = [*G[ill_node].keys()]
+    nbrs = [*G[start_node].keys()]
     nbrs = [n for n in nbrs if n not in visited]
     # print(nbrs)
 

@@ -11,6 +11,7 @@ import imageio
 def _filter(G: nx.Graph, node, neighbourhood: int) -> nx.Graph:
     """
     Returns subgraph with node and is't sub neighbourhood
+
     :param G: garph
     :param node: name of node to create subgraph
     :param neighbourhood: degree of nbrhd
@@ -31,6 +32,7 @@ def _filter(G: nx.Graph, node, neighbourhood: int) -> nx.Graph:
 def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     """
     Method to categorise labels of nodes and edges
+
     :param what: nodes of edges
     :param G: graph
     :return:
@@ -75,8 +77,8 @@ def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
 def plot(G: nx.Graph, n_labels: bool = False, e_labels: bool = False,
          pos=None) -> bytes:
     """
-    Method to visualise graph. Useful link
-    https://stackoverflow.com/questions/22992009/legend-in-python-networkx
+    Method to visualise graph with states of nodes and edges.
+
     :param G: given graph
     :param n_labels: a flag if pring names of nodes
     :param e_labels: a flag if print states of edges
@@ -115,6 +117,8 @@ def plot(G: nx.Graph, n_labels: bool = False, e_labels: bool = False,
     plt.legend(g.nodes())
     plt.show()
     '''
+
+    # https://stackoverflow.com/questions/22992009/legend-in-python-networkx
 
     # map all possible labels to numerical values
     class_map = {cat: n+1 for n, cat in enumerate(ncats)}

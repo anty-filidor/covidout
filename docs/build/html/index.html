@@ -1,0 +1,308 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to CovidOut’s documentation! &mdash; CovidOut 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> CovidOut
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to CovidOut’s documentation!</a><ul>
+<li><a class="reference internal" href="#module-spreading-model">Module <code class="docutils literal notranslate"><span class="pre">spreading_model</span></code></a><ul>
+<li><a class="reference internal" href="#module-spreading_model.ioops">I/O operations</a></li>
+<li><a class="reference internal" href="#module-spreading_model.spreading">Spreading model definition and experiments</a></li>
+<li><a class="reference internal" href="#module-spreading_model.visualisations">Graphs visualisations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">CovidOut</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to CovidOut’s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-covidout-s-documentation">
+<h1>Welcome to CovidOut’s documentation!<a class="headerlink" href="#welcome-to-covidout-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-spreading-model">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">spreading_model</span></code><a class="headerlink" href="#module-spreading-model" title="Permalink to this headline">¶</a></h2>
+<p>We provide a short tutorial how to run this bunch of code, see: <cite>src.ipynb</cite>.</p>
+<div class="section" id="module-spreading_model.ioops">
+<span id="i-o-operations"></span><h3>I/O operations<a class="headerlink" href="#module-spreading_model.ioops" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="spreading_model.ioops.get_node_states">
+<code class="sig-prename descclassname">spreading_model.ioops.</code><code class="sig-name descname">get_node_states</code><span class="sig-paren">(</span><em class="sig-param">G: networkx.classes.graph.Graph</em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#spreading_model.ioops.get_node_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method which returns network state as json</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>G</strong> – graph to return</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>graph as json</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spreading_model.ioops.read_net">
+<code class="sig-prename descclassname">spreading_model.ioops.</code><code class="sig-name descname">read_net</code><span class="sig-paren">(</span><em class="sig-param">nodes: str</em>, <em class="sig-param">edges: str</em><span class="sig-paren">)</span> &#x2192; networkx.classes.graph.Graph<a class="headerlink" href="#spreading_model.ioops.read_net" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads network from csv and compute resultant state in each node</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> – name of csv with nodes</p></li>
+<li><p><strong>edges</strong> – name of edges with nodes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>graph</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-spreading_model.spreading">
+<span id="spreading-model-definition-and-experiments"></span><h3>Spreading model definition and experiments<a class="headerlink" href="#module-spreading_model.spreading" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="spreading_model.spreading.sperad">
+<code class="sig-prename descclassname">spreading_model.spreading.</code><code class="sig-name descname">sperad</code><span class="sig-paren">(</span><em class="sig-param">G: networkx.classes.graph.Graph</em>, <em class="sig-param">start_node</em>, <em class="sig-param">visited: set = None</em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#spreading_model.spreading.sperad" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method spreads disease from given node to the entire network</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> – graph within disease is being spread</p></li>
+<li><p><strong>start_node</strong> – starting poin of simulation</p></li>
+<li><p><strong>visited</strong> – taboo list of nodes affected. used in the recursion</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>nodes which were affected</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="spreading_model.spreading.update_node">
+<code class="sig-prename descclassname">spreading_model.spreading.</code><code class="sig-name descname">update_node</code><span class="sig-paren">(</span><em class="sig-param">G: networkx.classes.graph.Graph</em>, <em class="sig-param">node</em>, <em class="sig-param">weight: float</em><span class="sig-paren">)</span><a class="headerlink" href="#spreading_model.spreading.update_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method updates weight of certain node in given graph</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> – graph to update</p></li>
+<li><p><strong>node</strong> – node name to update</p></li>
+<li><p><strong>weight</strong> – value of new weight</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-spreading_model.visualisations">
+<span id="graphs-visualisations"></span><h3>Graphs visualisations<a class="headerlink" href="#module-spreading_model.visualisations" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="spreading_model.visualisations.plot">
+<code class="sig-prename descclassname">spreading_model.visualisations.</code><code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">G: networkx.classes.graph.Graph</em>, <em class="sig-param">n_labels: bool = False</em>, <em class="sig-param">e_labels: bool = False</em>, <em class="sig-param">pos=None</em><span class="sig-paren">)</span> &#x2192; bytes<a class="headerlink" href="#spreading_model.visualisations.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method to visualise graph with states of nodes and edges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> – given graph</p></li>
+<li><p><strong>n_labels</strong> – a flag if pring names of nodes</p></li>
+<li><p><strong>e_labels</strong> – a flag if print states of edges</p></li>
+<li><p><strong>pos</strong> – positions of nodes (i.e. nx.spring_layout) if None auto
+position is computed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>png image serialised into bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Michał Czuba Michał Pogoda
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

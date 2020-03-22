@@ -1,14 +1,15 @@
 import networkx as nx
 import numpy as np
 import pandas as pd
-import scipy
+#import scipy
 import json
 
 
 def _comp_internal_weights(nodes: str) -> pd.DataFrame:
     """
-    reads nodes states and compute resultant function as internal probability
+    Reads nodes states and compute resultant function as internal probability
     of being infected
+
     :param nodes: name of csv with nodes
     :return: networks frame with nodes names and their states
     """
@@ -67,7 +68,8 @@ def _comp_internal_weights(nodes: str) -> pd.DataFrame:
 
 def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
     """
-    updates nodes with given status numbers
+    Updates nodes with given status numbers
+
     :param G: graph
     :param n: dataframe with nodes and nwe states
     """
@@ -79,6 +81,7 @@ def _update_nodes_labels(G: nx.Graph, n:pd.DataFrame):
 def read_net(nodes: str, edges:str) -> nx.Graph:
     """
     Reads network from csv and compute resultant state in each node
+
     :param nodes: name of csv with nodes
     :param edges: name of edges with nodes
     :return: graph
@@ -95,9 +98,10 @@ def read_net(nodes: str, edges:str) -> nx.Graph:
     return G
 
 
-def get_node_states(G: nx.Graph) -> json:
+def get_node_states(G: nx.Graph) -> dict:
     """
     Method which returns network state as json
+
     :param G: graph to return
     :return: graph as json
     """
