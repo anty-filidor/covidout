@@ -39,36 +39,6 @@ ______________________
    :undoc-members:
 
 
-Module ``date_generation``
-+++++++++++++++++++++++++++
-
-Database generation
-______________
-
-.. automodule:: data_generation.gen_database
-   :members:
-   :undoc-members:
-
-Run `fill_database.py` to fill generated database.
-
-
-Brownian movements simulaiton
-______________
-
-.. automodule:: data_generation.gen_graphs
-   :members:
-   :undoc-members:
-
-
-.. automodule:: data_generation.simulation
-   :members:
-   :undoc-members:
-
-
-.. automodule:: data_generation.visualize_movement_simulation
-   :members:
-   :undoc-members:
-
 
 Indices and tables
 ==================

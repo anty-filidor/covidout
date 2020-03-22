@@ -50,7 +50,7 @@ Please use `src.ipynb` notebook to perform an experiment. It contains
 * experiment
 * saving results as json of internal states of nodes or gif: 
 
-![gif](networks/experiment.gif)  
+![gif](spreading_model/networks/experiment.gif)  
 
 Model is based on an observation, that its hard to distinguish between common flu and 
 coronavirus. So instead of trying to predict coronavirus, we are tracking spread of any 
