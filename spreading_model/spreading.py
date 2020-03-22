@@ -21,7 +21,7 @@ def sperad(G: nx.Graph, node_id, visited: set = None, sure_ill=False):
     This method spreads disease from given node to the entire network
 
     :param G: graph within disease is being spread
-    :param node_id: ill node
+    :param node_id: Node that will be inspected
     :param visited: taboo list of nodes affected. used in the recursion
     :return: nodes which were affected
     """
