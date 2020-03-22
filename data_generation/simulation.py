@@ -28,24 +28,14 @@ WROCLAW = Area(16.918396, 17.134002, 51.078067, 51.165906)
 
 def brownian(x0, n, dt, delta, out=None):
     """
-    x0 : float or numpy array (or something that can be converted to a numpy array
-         using numpy.asarray(x0)).
-        The initial condition(s) (i.e. position(s)) of the Brownian motion.
-    n : int
-        The number of steps to take.
-    dt : float
-        The time step.
-    delta : float
-        delta determines the "speed" of the Brownian motion.  The random variable
-        of the position at time t, X(t), has a normal distribution whose mean is
-        the position at time t=0 and whose variance is delta**2*t.
-    out : numpy array or None
-        If `out` is not None, it specifies the array in which to put the
-        result.  If `out` is None, a new numpy array is created and returned.
+    Brownian movement
 
-    Returns
-    -------
-    A numpy array of floats with shape `x0.shape + (n,)`.
+    :param x0: float or numpy array (or something that can be converted to a numpy array using numpy.asarray(x0)). The initial condition(s) (i.e. position(s)) of the Brownian motion.
+    :param n: int The number of steps to take.
+    :param dt:  float The time step.
+    :param delta: float delta determines the "speed" of the Brownian motion. The random variable of the position at time t, X(t), has a normal distribution whose mean is the position at time t=0 and whose variance is delta**2*t.
+    :param out: numpy array or None If `out` is not None, it specifies the array in which to put the result.  If `out` is None, a new numpy array is created and returned.
+    :return:  A numpy array of floats with shape `x0.shape + (n,)`.
     """
 
     x0 = np.asarray(x0)
@@ -65,6 +55,7 @@ def brownian(x0, n, dt, delta, out=None):
 def brownian_2d(coords, n: int, dt: float, delta: float):
     """
     Brownian motion for 2d objects
+
     :param dt: Time delta
     :param coords: list of (x, y) tuples
     :param n: number of steps to simulate
@@ -86,6 +77,7 @@ def brownian_2d(coords, n: int, dt: float, delta: float):
 def state_transition(states: np.array, transition_probs: np.array, n: int) -> np.array:
     """
     A Markovian process step symetrical binomial process
+
     :param states: array/matrix of binomial state variabless
     :param transition_probs: probability of each element in a states row to transition to opposite state
     :param n: number of transitions to generate
@@ -104,6 +96,7 @@ def state_transition(states: np.array, transition_probs: np.array, n: int) -> np
 def gen_city(area: Area, n_people):
     """
     Generate a city-like initial distibution of people on an area.
+
     :param area: Are representing place where 95% of people will be generated
     :param n_people: Number of people to generate on the area
 
@@ -125,6 +118,7 @@ def gen_city(area: Area, n_people):
 def calc_distance(pos_a, pos_b):
     """
     Calculates a geodesic distance between 2 points
+
     :param pos_a: Geodesic coordinates of first point
     :param pos_b: Geodesic coordinates of second point
 
@@ -147,6 +141,7 @@ def weight_func(dist):
 def gen_weighted_connections(nodes_pos: pd.DataFrame) -> csc_matrix:
     """
     Generate connections between nodes from their gedesical positions
+
     :param nodes_pos: array of shape (n_nodes, 2) representing nodes geodesical position
     :return: sparse half-matrix representing weights between each 2 nodes
     """
@@ -166,6 +161,7 @@ def gen_weighted_connections(nodes_pos: pd.DataFrame) -> csc_matrix:
 def mutate_connections(old_connections: sp.sparse.csc_matrix, new_connections: sp.sparse.csc_matrix, add=0.2, retain=0.8):
     """
     Mutate information of connections between each nodes acoomodationg new location info
+
     :param old_connections: sparse half-matrix representing weights between each 2 nodes before mutation
                             WARNING - no longer valid after function call!
     :param new_connections: sparse half-matrix representing weights between each 2 nodes on given time
@@ -181,6 +177,7 @@ def mutate_connections(old_connections: sp.sparse.csc_matrix, new_connections: s
 def save_edges(filename: str, connections: sp.sparse.csc_matrix) -> None:
     """
     Saves connections between nodes in node-analitical friendly csv format
+
     :param filename: Csv path where connections will be stored
     :param connections: sparse half-matrix representing weights between each 2 nodes
     :return: None

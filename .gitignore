@@ -1,6 +1,4 @@
 __pycache__
 data_generation/databases.json
 .idea
-/sphinx/build/
-/sphinx/build/html/
-/sphinx/build/doctrees/
+/sphinx/

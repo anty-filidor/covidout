@@ -87,6 +87,11 @@
 <li><a class="reference internal" href="#module-spreading_model.visualisations">Graphs visualisations</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#module-date-generation">Module <code class="docutils literal notranslate"><span class="pre">date_generation</span></code></a><ul>
+<li><a class="reference internal" href="#database-generation">Database generation</a></li>
+<li><a class="reference internal" href="#brownian-movements-simulaiton">Brownian movements simulaiton</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
@@ -251,6 +256,256 @@ position is computed</p></li>
 <dd class="field-even"><p>png image serialised into bytes</p>
 </dd>
 </dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-date-generation">
+<h2>Module <code class="docutils literal notranslate"><span class="pre">date_generation</span></code><a class="headerlink" href="#module-date-generation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="database-generation">
+<h3>Database generation<a class="headerlink" href="#database-generation" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-data_generation.gen_database"></span><dl class="function">
+<dt id="data_generation.gen_database.gen_locations">
+<code class="sig-prename descclassname">data_generation.gen_database.</code><code class="sig-name descname">gen_locations</code><span class="sig-paren">(</span><em class="sig-param">users: pandas.core.frame.DataFrame</em>, <em class="sig-param">n_timesteps: int</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#data_generation.gen_database.gen_locations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates localization history for each user
+:param users: DataFrame containing information about each user
+:param n_timesteps: Number of timesteps to generate for each user. Timesteps delta is 1h</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DataFrame containing localization information history each user</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.gen_database.gen_symptoms">
+<code class="sig-prename descclassname">data_generation.gen_database.</code><code class="sig-name descname">gen_symptoms</code><span class="sig-paren">(</span><em class="sig-param">users: pandas.core.frame.DataFrame</em>, <em class="sig-param">n_days: int</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#data_generation.gen_database.gen_symptoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate symptoms for each user in a markovian process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>users</strong> – DataFrame containing information about each user</p></li>
+<li><p><strong>n_days</strong> – Number of calendar days with symptoms to generate for each user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataframe containing day-by-day symptoms history of users</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.gen_database.gen_users">
+<code class="sig-prename descclassname">data_generation.gen_database.</code><code class="sig-name descname">gen_users</code><span class="sig-paren">(</span><em class="sig-param">n: int</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="headerlink" href="#data_generation.gen_database.gen_users" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a dataframe containing users informations
+:param n: Number of users to generate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>DataFrame containing each user info</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Run <cite>fill_database.py</cite> to fill generated database.</p>
+</div>
+<div class="section" id="brownian-movements-simulaiton">
+<h3>Brownian movements simulaiton<a class="headerlink" href="#brownian-movements-simulaiton" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-data_generation.simulation"></span><dl class="class">
+<dt id="data_generation.simulation.Area">
+<em class="property">class </em><code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">Area</code><span class="sig-paren">(</span><em class="sig-param">longitude_min</em>, <em class="sig-param">longitude_max</em>, <em class="sig-param">latitude_min</em>, <em class="sig-param">latitude_max</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.Area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing rectangular-like area on earth coordinates</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.brownian">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">brownian</code><span class="sig-paren">(</span><em class="sig-param">x0</em>, <em class="sig-param">n</em>, <em class="sig-param">dt</em>, <em class="sig-param">delta</em>, <em class="sig-param">out=None</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.brownian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brownian movement</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x0</strong> – float or numpy array (or something that can be converted to a numpy array using numpy.asarray(x0)). The initial condition(s) (i.e. position(s)) of the Brownian motion.</p></li>
+<li><p><strong>n</strong> – int The number of steps to take.</p></li>
+<li><p><strong>dt</strong> – float The time step.</p></li>
+<li><p><strong>delta</strong> – float delta determines the “speed” of the Brownian motion. The random variable of the position at time t, X(t), has a normal distribution whose mean is the position at time t=0 and whose variance is delta**2*t.</p></li>
+<li><p><strong>out</strong> – numpy array or None If <cite>out</cite> is not None, it specifies the array in which to put the result.  If <cite>out</cite> is None, a new numpy array is created and returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A numpy array of floats with shape <cite>x0.shape + (n,)</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.brownian_2d">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">brownian_2d</code><span class="sig-paren">(</span><em class="sig-param">coords</em>, <em class="sig-param">n: int</em>, <em class="sig-param">dt: float</em>, <em class="sig-param">delta: float</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.brownian_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brownian motion for 2d objects</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dt</strong> – Time delta</p></li>
+<li><p><strong>coords</strong> – list of (x, y) tuples</p></li>
+<li><p><strong>n</strong> – number of steps to simulate</p></li>
+<li><p><strong>delta</strong> – Wiener delta</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array of shape (n, num_points, 2)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.calc_distance">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">calc_distance</code><span class="sig-paren">(</span><em class="sig-param">pos_a</em>, <em class="sig-param">pos_b</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.calc_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a geodesic distance between 2 points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos_a</strong> – Geodesic coordinates of first point</p></li>
+<li><p><strong>pos_b</strong> – Geodesic coordinates of second point</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Distance in kilometers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.gen_city">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">gen_city</code><span class="sig-paren">(</span><em class="sig-param">area: data_generation.simulation.Area</em>, <em class="sig-param">n_people</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.gen_city" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a city-like initial distibution of people on an area.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area</strong> – Are representing place where 95% of people will be generated</p></li>
+<li><p><strong>n_people</strong> – Number of people to generate on the area</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(n_people, 2) array of coordinates for each person</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.gen_weighted_connections">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">gen_weighted_connections</code><span class="sig-paren">(</span><em class="sig-param">nodes_pos: pandas.core.frame.DataFrame</em><span class="sig-paren">)</span> &#x2192; scipy.sparse.csc.csc_matrix<a class="headerlink" href="#data_generation.simulation.gen_weighted_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate connections between nodes from their gedesical positions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>nodes_pos</strong> – array of shape (n_nodes, 2) representing nodes geodesical position</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sparse half-matrix representing weights between each 2 nodes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.mutate_connections">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">mutate_connections</code><span class="sig-paren">(</span><em class="sig-param">old_connections: scipy.sparse.csc.csc_matrix</em>, <em class="sig-param">new_connections: scipy.sparse.csc.csc_matrix</em>, <em class="sig-param">add=0.2</em>, <em class="sig-param">retain=0.8</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.mutate_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mutate information of connections between each nodes acoomodationg new location info</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>old_connections</strong> – sparse half-matrix representing weights between each 2 nodes before mutation
+WARNING - no longer valid after function call!</p></li>
+<li><p><strong>new_connections</strong> – sparse half-matrix representing weights between each 2 nodes on given time</p></li>
+<li><p><strong>add</strong> – how much of new_connecion should be accomodated into weights</p></li>
+<li><p><strong>retain</strong> – how much of old_connections should be left in wegights</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>sparse half-matrix representing weights between each 2 nodes after mutation. Clipped between 0.0 and 1.0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.save_edges">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">save_edges</code><span class="sig-paren">(</span><em class="sig-param">filename: str</em>, <em class="sig-param">connections: scipy.sparse.csc.csc_matrix</em><span class="sig-paren">)</span> &#x2192; None<a class="headerlink" href="#data_generation.simulation.save_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves connections between nodes in node-analitical friendly csv format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> – Csv path where connections will be stored</p></li>
+<li><p><strong>connections</strong> – sparse half-matrix representing weights between each 2 nodes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.state_transition">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">state_transition</code><span class="sig-paren">(</span><em class="sig-param">states: numpy.array</em>, <em class="sig-param">transition_probs: numpy.array</em>, <em class="sig-param">n: int</em><span class="sig-paren">)</span> &#x2192; numpy.array<a class="headerlink" href="#data_generation.simulation.state_transition" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Markovian process step symetrical binomial process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>states</strong> – array/matrix of binomial state variabless</p></li>
+<li><p><strong>transition_probs</strong> – probability of each element in a states row to transition to opposite state</p></li>
+<li><p><strong>n</strong> – number of transitions to generate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array of shape (n, <a href="#id1"><span class="problematic" id="id2">*</span></a>states.shape) representing states in each step of the process</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="data_generation.simulation.weight_func">
+<code class="sig-prename descclassname">data_generation.simulation.</code><code class="sig-name descname">weight_func</code><span class="sig-paren">(</span><em class="sig-param">dist</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.simulation.weight_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that translates distance into node weights
+TODO: Fit to research</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dist</strong> – distance (in kilometers) between two nodes</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>weight connecting 2 nodes (0.0 - 1.0)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-data_generation.visualize_movement_simulation"></span><dl class="class">
+<dt id="data_generation.visualize_movement_simulation.AnimatedScatter">
+<em class="property">class </em><code class="sig-prename descclassname">data_generation.visualize_movement_simulation.</code><code class="sig-name descname">AnimatedScatter</code><span class="sig-paren">(</span><em class="sig-param">city_sim: data_generation.visualize_movement_simulation.CitySim</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.visualize_movement_simulation.AnimatedScatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class visualizing movement of points on scatterplot
+source: <a class="reference external" href="https://stackoverflow.com/questions/9401658/how-to-animate-a-scatter-plot">https://stackoverflow.com/questions/9401658/how-to-animate-a-scatter-plot</a></p>
+<dl class="method">
+<dt id="data_generation.visualize_movement_simulation.AnimatedScatter.data_stream">
+<code class="sig-name descname">data_stream</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.visualize_movement_simulation.AnimatedScatter.data_stream" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="data_generation.visualize_movement_simulation.AnimatedScatter.setup_plot">
+<code class="sig-name descname">setup_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.visualize_movement_simulation.AnimatedScatter.setup_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial drawing of the scatter plot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="data_generation.visualize_movement_simulation.AnimatedScatter.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">i</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.visualize_movement_simulation.AnimatedScatter.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the scatter plot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="data_generation.visualize_movement_simulation.CitySim">
+<em class="property">class </em><code class="sig-prename descclassname">data_generation.visualize_movement_simulation.</code><code class="sig-name descname">CitySim</code><span class="sig-paren">(</span><em class="sig-param">city: data_generation.simulation.Area</em>, <em class="sig-param">num_people</em><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.visualize_movement_simulation.CitySim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class representing a simulation of people movement in the city</p>
+<dl class="method">
+<dt id="data_generation.visualize_movement_simulation.CitySim.simulation">
+<code class="sig-name descname">simulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#data_generation.visualize_movement_simulation.CitySim.simulation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
