@@ -39,7 +39,8 @@ Michał - uzupełnij proszę!
 Please use `src.ipynb` notebook to perform an experiment. It contains 
 * read of network
 * experiment
-* saving results as json of internal states of nodes or gif: ![gif](networks/experiment.gif)  
+* saving results as json of internal states of nodes or gif: 
+![gif](networks/experiment.gif)  
 
 Model bases on two probabilities:
 - internal probability of being ill of each node. This function is a sigmoid of
