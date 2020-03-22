@@ -78,8 +78,10 @@ can be:
 ![example](docs/aux/example.png)  ![intprob](docs/aux/internal_prob.png)  
 
 Weight of interactions between nodes is given as:
+
 ![example](docs/aux/p_x.png)  
 
 Thus:
+
 ![example](docs/aux/p_a_desc.png) 
 ![example](docs/aux/p_a.png)
