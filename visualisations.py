@@ -64,13 +64,16 @@ def _categorise(G: nx.Graph, what: str) -> (pd.DataFrame, list):
     return node_labels, lcats
 
 
-def plot(G: nx.Graph, node, neighbourhood: int) -> bytes:
+def plot(G: nx.Graph, node, neighbourhood: int, n_labels: bool = False,
+         e_labels: bool = False) -> bytes:
     """
     Method to visualise subgraph. Useful link
     https://stackoverflow.com/questions/22992009/legend-in-python-networkx
     :param G: given graph
     :param node: node for which neighbourhood visualise a graph
     :param neighbourhood: degree of neighbourhood
+    :param n_labels: a flag if pring names of nodes
+    :param e_labels: a flag if print states of edges
     :return: png image serialised into bytes
     """
 
@@ -128,14 +131,15 @@ def plot(G: nx.Graph, node, neighbourhood: int) -> bytes:
         ax.plot([0], [0], color=scalar_map.to_rgba(class_map[lbl]), label=lbl)
 
     # plot sub graph nodes
-    nx.draw_networkx(g, pos=pos, with_labels=True, cmap=jet,
+    nx.draw_networkx(g, pos=pos, with_labels=n_labels, cmap=jet,
                      vmin=0, vmax=max(class_map.values()),
                      node_color=node_map, node_size=170, edge_size=10,
                      alpha=0.9, font_size=12, ax=ax)
 
     # plot sub graph edges
-    #nx.draw_networkx_edge_labels(g, edge_labels=elbls.to_dict()['status'],
-    #                             pos=pos, ax=ax)
+    if e_labels:
+        nx.draw_networkx_edge_labels(g, edge_labels=elbls.to_dict()['status'],
+                                     pos=pos, ax=ax)
 
     # make figure more pretty
     plt.axis('off')

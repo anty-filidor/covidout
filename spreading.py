@@ -74,14 +74,11 @@ def sperad(G: nx.Graph, ill_node, visited: set = None) -> nx.Graph:
 
         prob = probs * G.nodes[n]['w']
         prob = 1 - prob
-        prob = np.prod(prob) * 0.7  # TODO - MAGIC NUMBER
+        prob = np.prod(prob) * 1  # TODO - MAGIC NUMBER to speed up propagation
         # prob is probability of being health of node "n"
 
-        # if new probability computed from external conditions is higher
-        # than internal update it
-        if G.nodes[n]['w'] < 1 - prob:
-            G.nodes[n]['w'] = 1 - prob
-        # print(n, prob)
+        # update new probability computed from external conditions
+        G.nodes[n]['w'] = 1 - prob
 
         # toss a coin with binomial prob and check if node will become ill
         toss = np.random.choice(np.arange(0, 2), p=[prob, 1 - prob])
