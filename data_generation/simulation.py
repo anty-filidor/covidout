@@ -11,6 +11,21 @@ import abc
 from itertools import combinations
 
 
+class Area(abc.ABC):
+    """
+    Class representing rectangular-like area on earth coordinates
+    """
+    def __init__(self, longitude_min, longitude_max, latitude_min, latitude_max):
+        self.longitude_min = longitude_min
+        self.longitude_max = longitude_max
+        self.latitude_min = latitude_min
+        self.latitude_max = latitude_max
+
+
+# Data will be generated roughly for Wroclaw area
+WROCLAW = Area(16.918396, 17.134002, 51.078067, 51.165906)
+
+
 def brownian(x0, n, dt, delta, out=None):
     """
     x0 : float or numpy array (or something that can be converted to a numpy array
@@ -68,7 +83,15 @@ def brownian_2d(coords, n: int, dt: float, delta: float):
     return np.array([x_brownian, y_brownian]).transpose([2, 1, 0])
 
 
-def state_transition(states, transition_probs, n):
+def state_transition(states: np.array, transition_probs: np.array, n: int) -> np.array:
+    """
+    A Markovian process step symetrical binomial process
+    :param states: array/matrix of binomial state variabless
+    :param transition_probs: probability of each element in a states row to transition to opposite state
+    :param n: number of transitions to generate
+    :return: array of shape (n, *states.shape) representing states in each step of the process
+    """
+
     gen_states = [np.array(states)]
     for i in range(n):
         transitions = np.random.binomial(1, [transition_probs]*len(states), states.shape)
@@ -78,18 +101,15 @@ def state_transition(states, transition_probs, n):
     return np.array(gen_states)
 
 
-class Area(abc.ABC):
-    def __init__(self, longitude_min, longitude_max, latitude_min, latitude_max):
-        self.longitude_min = longitude_min
-        self.longitude_max = longitude_max
-        self.latitude_min = latitude_min
-        self.latitude_max = latitude_max
-
-
-wroclaw = Area(16.918396, 17.134002, 51.078067, 51.165906)
-
-
 def gen_city(area: Area, n_people):
+    """
+    Generate a city-like initial distibution of people on an area.
+    :param area: Are representing place where 95% of people will be generated
+    :param n_people: Number of people to generate on the area
+
+    :return: (n_people, 2) array of coordinates for each person
+    """
+
     lat_mean = np.mean([area.latitude_min, area.latitude_max])
     lat_std = np.std([area.latitude_min, area.latitude_max])
 
@@ -102,64 +122,35 @@ def gen_city(area: Area, n_people):
     return np.array([people_long, people_lat], dtype=np.float).transpose()
 
 
-class CitySim:
-    def __init__(self, city: Area, num_people):
-        self.city = city
-        self.num_people = num_people
-        self.state = gen_city(city, num_people)
-
-    def simulation(self):
-        while True:
-            self.state = brownian_2d(self.state, 1, 0.01, 0.001)[-1, :, :]
-            yield self.state
-
-
-class AnimatedScatter(object):
-    """An animated scatter plot using matplotlib.animations.FuncAnimation."""
-    def __init__(self, city_sim: CitySim):
-        self.city_sim = city_sim
-        self.stream = self.data_stream()
-
-        self.fig, self.ax = plt.subplots()
-        self.ani = animation.FuncAnimation(self.fig, self.update, interval=5,
-                                           init_func=self.setup_plot, blit=True)
-
-    def setup_plot(self):
-        """Initial drawing of the scatter plot."""
-        data = next(self.stream).transpose()
-        self.scat = self.ax.scatter(data[0], data[1],
-                                    cmap="jet", edgecolor="k")
-        self.ax.axis([
-            self.city_sim.city.longitude_min,
-            self.city_sim.city.longitude_max,
-            self.city_sim.city.latitude_min,
-            self.city_sim.city.latitude_max
-        ])
-
-        return self.scat,
-
-    def data_stream(self):
-        while True:
-            yield next(self.city_sim.simulation())
-
-    def update(self, i):
-        """Update the scatter plot."""
-        data = next(self.stream)
-
-        self.scat.set_offsets(data)
-
-        return self.scat,
-
-
 def calc_distance(pos_a, pos_b):
+    """
+    Calculates a geodesic distance between 2 points
+    :param pos_a: Geodesic coordinates of first point
+    :param pos_b: Geodesic coordinates of second point
+
+    :return: Distance in kilometers
+    """
     return geopy.distance.geodesic(pos_a, pos_b).km
 
 
 def weight_func(dist):
+    """
+    Function that translates distance into node weights
+    TODO: Fit to research
+
+    :param dist: distance (in kilometers) between two nodes
+    :return: weight connecting 2 nodes (0.0 - 1.0)
+    """
     return max(1 - dist**2, 0)
 
 
-def gen_weighted_connections(nodes_pos: pd.DataFrame):
+def gen_weighted_connections(nodes_pos: pd.DataFrame) -> csc_matrix:
+    """
+    Generate connections between nodes from their gedesical positions
+    :param nodes_pos: array of shape (n_nodes, 2) representing nodes geodesical position
+    :return: sparse half-matrix representing weights between each 2 nodes
+    """
+
     n = max(nodes_pos["user_id"]) + 1
     connections = dok_matrix((n, n), dtype=np.float32)
 
@@ -172,40 +163,32 @@ def gen_weighted_connections(nodes_pos: pd.DataFrame):
     return csc_matrix(connections)
 
 
-def mutate_connections(old_connections, new_connections, add=1, retain=1):
+def mutate_connections(old_connections: sp.sparse.csc_matrix, new_connections: sp.sparse.csc_matrix, add=0.2, retain=0.8):
     """
-    Mutate old_connection to accomodate for new_connections.
-    :param old_connections: WARNING - no longer valid after function call!
-    :param new_connections:
-    :param add:
-    :param retain:
-    :return:
+    Mutate information of connections between each nodes acoomodationg new location info
+    :param old_connections: sparse half-matrix representing weights between each 2 nodes before mutation
+                            WARNING - no longer valid after function call!
+    :param new_connections: sparse half-matrix representing weights between each 2 nodes on given time
+    :param add: how much of new_connecion should be accomodated into weights
+    :param retain: how much of old_connections should be left in wegights
+    :return: sparse half-matrix representing weights between each 2 nodes after mutation. Clipped between 0.0 and 1.0
     """
     old_connections.data = np.clip(new_connections.data * add + old_connections.data*retain, 0.0, 1.0)
 
     return old_connections
 
 
-def save_edges(filename, connections: sp.sparse.csc_matrix):
+def save_edges(filename: str, connections: sp.sparse.csc_matrix) -> None:
+    """
+    Saves connections between nodes in node-analitical friendly csv format
+    :param filename: Csv path where connections will be stored
+    :param connections: sparse half-matrix representing weights between each 2 nodes
+    :return: None
+    """
+
     data = []
 
     for key, value in connections.todok().items():
         data.append((key[0], key[1], value))
 
     pd.DataFrame(data).to_csv(filename, index=False, header=False)
-
-
-#sim = CitySim(wroclaw, 40)
-
-#conn = generate_weighted_conn(next(sim.simulation()))
-#conn2 = mutate_connections(conn, conn)
-#save_edges("edges.csv", conn)
-
-#data = gen_city(lat_min, lat_max, long_min, long_max, 40)
-#result = generate_weighted_conn(data)
-
-#result = pd.DataFrame(result)
-#result.to_csv("edges.csv", index=False, header=None)
-#data_cechy = np.random.binomial(1, 0.1, (data.shape[0], 18))
-
-#pd.DataFrame(data_cechy).to_csv("nodes.csv", header=None)

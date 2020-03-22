@@ -1,0 +1,9 @@
+{
+  "production":{
+        "NAME": "<database_name>",
+        "USER": "<database_user>",
+        "PASSWORD": "<database_user_password>",
+        "HOST": "<database_address>",
+        "PORT": <database_port>
+    }
+}

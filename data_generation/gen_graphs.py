@@ -1,8 +1,7 @@
 import pandas as pd
-import numpy as np
-from simulation import gen_city, wroclaw, brownian_2d, state_transition, gen_weighted_connections, save_edges
+from data_generation.simulation import gen_weighted_connections, save_edges
 from datetime import datetime, timedelta, date
-from gen_database import gen_users, gen_locations, gen_symptoms, EVENTS_COLUMNS
+from data_generation.gen_database import gen_users, gen_locations, gen_symptoms, EVENTS_COLUMNS
 
 users = gen_users(1000)
 locations = gen_locations(users, 1)
